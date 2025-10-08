@@ -10,7 +10,7 @@ const SuggestionsForm = ({ data, onChange }) => {
         name="suggestions"
         value={data.suggestions || ''}
         onChange={onChange}
-        placeholder="Share your thoughts and suggestions here..."
+        placeholder="Share your thoughts and suggestions here, if you have any..."
         rows={6}
       />
       
