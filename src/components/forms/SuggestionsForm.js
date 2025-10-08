@@ -6,7 +6,7 @@ const SuggestionsForm = ({ data, onChange }) => {
   return (
     <div className="suggestions-form">
       <Textarea
-        label="Do you have any suggestions for TECNO campus activities or products? (Optional)"
+        label="Do you have any suggestions for TECNO campus activities or products?"
         name="suggestions"
         value={data.suggestions || ''}
         onChange={onChange}

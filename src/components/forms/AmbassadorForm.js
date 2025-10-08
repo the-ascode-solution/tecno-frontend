@@ -38,7 +38,7 @@ const AmbassadorForm = ({ data, onChange, onSkip }) => {
       <div className="ambassador-question-container">
         <div className="dropdown-wrapper">
           <DropdownWithOther
-            label="Would you like to become a TECNO Campus Ambassador (helping with campus events & sharing product experiences)? (optional question)"
+            label="Would you like to become a TECNO Campus Ambassador (helping with campus events & sharing product experiences)?"
             name="interestedInAmbassador"
             options={interestedInAmbassador}
             value={data.interestedInAmbassador === 'skipped' ? '' : data.interestedInAmbassador}
