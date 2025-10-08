@@ -26,13 +26,13 @@ const BasicInfoForm = ({ data, onChange }) => {
   ];
 
   const universityOptions = [
-    { value: 'uol', label: 'UOL' },
-    { value: 'ucp', label: 'UCP' },
-    { value: 'umt', label: 'UMT' },
-    { value: 'iac', label: 'IAC' },
-    { value: 'bnu', label: 'BNU' },
-    { value: 'fccu', label: 'FCCU' },
-    { value: 'gc', label: 'GC' },
+    { value: 'uol', label: 'University of Lahore' },
+    { value: 'ucp', label: 'University of Central Punjab' },
+    { value: 'umt', label: 'University of Management and Technology' },
+    { value: 'sup', label: 'Superior University' },
+    { value: 'bnu', label: 'Beaconhouse National University' },
+    { value: 'fccu', label: 'Forman Christian College University' },
+    { value: 'gc', label: 'Garrison College University' },
     { value: 'other', label: 'Other' }
   ];
 
