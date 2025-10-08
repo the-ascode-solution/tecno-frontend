@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextInput, DropdownWithOther } from '../FormComponents';
+import { TextInput, DropdownWithOther, Dropdown } from '../FormComponents';
 
 const ContactInfoForm = ({ data, onChange }) => {
   const socialMediaPlatformOptions = [
@@ -11,6 +11,14 @@ const ContactInfoForm = ({ data, onChange }) => {
     { value: 'snapchat', label: 'Snapchat' },
     { value: 'linkedin', label: 'LinkedIn' },
     { value: 'other', label: 'Other' }
+  ];
+
+  const followerCountOptions = [
+    { value: '<500', label: '<500' },
+    { value: '500-1000', label: '500–1000' },
+    { value: '1000-5000', label: '1000–5000' },
+    { value: '5000-10000', label: '5000–10000' },
+    { value: '10000+', label: '10000+' }
   ];
 
   return (
@@ -53,6 +61,16 @@ const ContactInfoForm = ({ data, onChange }) => {
         onChange={onChange}
         placeholder="Enter your social media profile link"
         type="url"
+      />
+
+      <Dropdown
+        label="Number of followers on your main social media platform"
+        name="followerCount"
+        options={followerCountOptions}
+        value={data.followerCount || ''}
+        onChange={onChange}
+        placeholder="Select follower range"
+        required={true}
       />
     </div>
   );

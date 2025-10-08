@@ -4,7 +4,7 @@ import ColorPicker from '../ColorPicker';
 
 const PhonePreferencesForm = ({ data, onChange }) => {
   const phoneFeatures = [
-    { value: 'intelligent-camera', label: 'Camera Features (Zoom, Night Mode, 3D Photos)' },
+    { value: 'intelligent-camera', label: 'Camera Features (Zoom, Night Mode)' },
     { value: 'long-battery', label: 'Long-lasting Battery' },
     { value: 'fast-charging', label: 'Fast Charging' },
     { value: 'slim-design', label: 'Slim & Light Design' },

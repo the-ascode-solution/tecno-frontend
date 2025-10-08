@@ -2,8 +2,13 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import axios from 'axios';
 
-// API base URL - use Railway deployed backend
-const API_BASE_URL = 'https://tecno-backend-production.up.railway.app/api';
+// API base URL: prefer environment variable (Netlify -> REACT_APP_API_BASE_URL),
+// fallback to the deployed Railway backend. If the env var already includes /api,
+// use it as-is; otherwise accept a full base path in the env var.
+const envApiBase = process.env.REACT_APP_API_BASE_URL;
+const API_BASE_URL = envApiBase && envApiBase.trim().length > 0
+  ? envApiBase
+  : 'https://tecno-backend-production.up.railway.app/api';
 
 const useSurveyStore = create(
   persist(
@@ -168,9 +173,8 @@ const useSurveyStore = create(
       
       // Submit completed survey
       submitSurvey: async () => {
+        const surveyData = get().surveyData;
         try {
-          const { surveyData } = get();
-          
           console.log('Submitting survey data:', surveyData);
           
           // Submit survey data directly to the simple survey endpoint
@@ -208,7 +212,7 @@ const useSurveyStore = create(
             
             // Save survey data to localStorage with timestamp
             const fallbackData = {
-              ...surveyData,
+              ...get().surveyData,
               submittedAt: new Date().toISOString(),
               fallback: true,
               id: `fallback_${Date.now()}`
