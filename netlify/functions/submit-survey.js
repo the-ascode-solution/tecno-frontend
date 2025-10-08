@@ -1,4 +1,5 @@
 const { Client } = require('pg');
+const { randomUUID } = require('crypto');
 
 exports.handler = async function (event) {
   if (event.httpMethod !== 'POST') {
@@ -11,18 +12,19 @@ exports.handler = async function (event) {
     const client = new Client({ connectionString: process.env.DATABASE_URL });
     await client.connect();
 
-    // Ensure table exists
+    // Ensure table exists (no extensions required)
     await client.query(`
       create table if not exists survey_submissions (
-        id uuid primary key default gen_random_uuid(),
+        id uuid primary key,
         submitted_at timestamptz not null default now(),
         data jsonb not null
       );
     `);
 
+    const id = randomUUID();
     const insert = await client.query(
-      'insert into survey_submissions (data) values ($1) returning id, submitted_at',
-      [payload]
+      'insert into survey_submissions (id, data) values ($1, $2) returning id, submitted_at',
+      [id, payload]
     );
 
     await client.end();
