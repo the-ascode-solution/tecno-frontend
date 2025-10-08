@@ -26,7 +26,7 @@ const SurveyPage = () => {
     'What Matters Most in a New Phone',
     'TECNO Campus Brand Ambassador Program',
     'Contact Information',
-    'Suggestions (Optional)'
+    'Suggestions'
   ];
 
   const handleDataChange = (fieldName, value) => {
