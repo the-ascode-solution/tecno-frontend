@@ -246,7 +246,7 @@ const useSurveyStore = create(
             try {
               // Remove fallback flag and submit
               const { fallback, ...dataToSubmit } = submission;
-              const response = await axios.post(`${API_BASE_URL}/survey/submit`, dataToSubmit);
+              const response = await axios.post(FUNCTION_SUBMIT_URL, dataToSubmit);
               
               if (response.data.success) {
                 results.push({ success: true, id: submission.id });
