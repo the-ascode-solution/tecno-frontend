@@ -33,8 +33,60 @@ const SurveyPage = () => {
     updateSurveyData({ [fieldName]: value });
   };
 
+  const isPageValid = () => {
+    // Validate required fields per page. Only interestedInAmbassador and Suggestions are optional.
+    switch (currentPage) {
+      case 0: {
+        const { gender, yearOfStudy, fieldOfStudy, university } = surveyData;
+        return !!(gender && yearOfStudy && fieldOfStudy && university);
+      }
+      case 1: {
+        const { socialMediaPlatforms = [], timeSpentOnSocialMedia, followsTechContent, techUpdateSources = [] } = surveyData;
+        return socialMediaPlatforms.length > 0 && !!timeSpentOnSocialMedia && !!followsTechContent && techUpdateSources.length > 0;
+      }
+      case 2: {
+        const { currentPhoneBrand, topPhoneFunctions = [], phoneChangeFrequency, tecnoExperience, tecnoExperienceRating } = surveyData;
+        const baseOk = !!currentPhoneBrand && topPhoneFunctions.length === 3 && !!phoneChangeFrequency && !!tecnoExperience;
+        const ratingOk = tecnoExperience !== 'yes-used' || !!tecnoExperienceRating;
+        return baseOk && ratingOk;
+      }
+      case 3: {
+        const { learningSkills = [], partTimeWork = [] } = surveyData;
+        return learningSkills.length > 0 && partTimeWork.length > 0;
+      }
+      case 4: {
+        const { phoneFeaturesRanking = {}, phoneBudget, preferredPhoneColors = [] } = surveyData;
+        const rankingValues = Object.values(phoneFeaturesRanking || {});
+        const hasAllEight = rankingValues.length === 8 && new Set(rankingValues).size === 8;
+        return hasAllEight && !!phoneBudget && preferredPhoneColors.length > 0;
+      }
+      case 5: {
+        // Ambassador page optional overall; only validate children when 'yes'
+        if (surveyData.interestedInAmbassador === 'yes') {
+          const { ambassadorStrengths = [], ambassadorBenefits = [] } = surveyData;
+          return ambassadorStrengths.length > 0 && ambassadorBenefits.length > 0;
+        }
+        return true; // skipped or empty is allowed
+      }
+      case 6: {
+        const { name, contactNumber, socialMediaPlatform } = surveyData;
+        return !!name && !!contactNumber && !!socialMediaPlatform;
+      }
+      case 7: {
+        // Suggestions optional
+        return true;
+      }
+      default:
+        return true;
+    }
+  };
+
   const handleNext = async () => {
     if (currentPage < 7) {
+      if (!isPageValid()) {
+        alert('Please complete all required fields before continuing.');
+        return;
+      }
       // Ambassador page (page 5): only 'yes' continues through contact/suggestions; else skip to submit
       if (currentPage === 5 && surveyData.interestedInAmbassador !== 'yes') {
         try {
@@ -90,6 +142,11 @@ const SurveyPage = () => {
     setIsSubmitting(true);
     try {
       // Save final progress before submitting
+      if (!isPageValid()) {
+        alert('Please complete all required fields before submitting.');
+        setIsSubmitting(false);
+        return;
+      }
       await saveProgress();
       
       const result = await submitSurvey();
