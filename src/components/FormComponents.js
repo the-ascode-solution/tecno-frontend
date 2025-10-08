@@ -143,12 +143,16 @@ export const DropdownWithOther = ({ label, options, value, onChange, name, place
 };
 
 // Multi-select Dropdown with Other Field Component
-export const MultiDropdownWithOther = ({ label, options, values = [], onChange, name, placeholder, required = false, otherFieldName = null, otherValue = '' }) => {
+export const MultiDropdownWithOther = ({ label, options, values = [], onChange, name, placeholder, required = false, otherFieldName = null, otherValue = '', maxSelections = Infinity }) => {
   const hasOtherOption = options.some(option => option.value === 'other');
   const showOtherField = hasOtherOption && values.includes('other');
 
   const handleToggle = (optionValue) => {
-    const newValues = values.includes(optionValue)
+    const isSelected = values.includes(optionValue);
+    if (!isSelected && values.length >= maxSelections) {
+      return; // prevent selecting more than allowed
+    }
+    const newValues = isSelected
       ? values.filter(v => v !== optionValue)
       : [...values, optionValue];
     onChange(name, newValues);
@@ -165,6 +169,7 @@ export const MultiDropdownWithOther = ({ label, options, values = [], onChange, 
               checked={values.includes(option.value)}
               onChange={() => handleToggle(option.value)}
               className="multi-dropdown-checkbox"
+              disabled={!values.includes(option.value) && values.length >= maxSelections}
             />
             <span className="multi-dropdown-label">{option.label}</span>
           </label>

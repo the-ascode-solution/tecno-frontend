@@ -58,13 +58,14 @@ const MobileUsageForm = ({ data, onChange }) => {
       />
 
       <MultiDropdownWithOther
-        label="What are the top 3 functions you use on your phone? (Select up to 3)"
+        label="What are the top 3 functions you use on your phone? (Select exactly 3)"
         name="topPhoneFunctions"
         options={phoneFunctions}
         values={data.topPhoneFunctions || []}
         onChange={onChange}
         otherFieldName="topPhoneFunctionsOther"
         otherValue={data.topPhoneFunctionsOther}
+        maxSelections={3}
       />
 
       <DropdownWithOther
