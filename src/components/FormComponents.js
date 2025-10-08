@@ -144,13 +144,17 @@ export const DropdownWithOther = ({ label, options, value, onChange, name, place
 
 // Multi-select Dropdown with Other Field Component
 export const MultiDropdownWithOther = ({ label, options, values = [], onChange, name, placeholder, required = false, otherFieldName = null, otherValue = '', maxSelections = Infinity }) => {
+  const [showLimitMessage, setShowLimitMessage] = React.useState(false);
   const hasOtherOption = options.some(option => option.value === 'other');
   const showOtherField = hasOtherOption && values.includes('other');
 
   const handleToggle = (optionValue) => {
     const isSelected = values.includes(optionValue);
     if (!isSelected && values.length >= maxSelections) {
-      return; // prevent selecting more than allowed
+      // prevent selecting more than allowed and show a brief message
+      setShowLimitMessage(true);
+      setTimeout(() => setShowLimitMessage(false), 2000);
+      return;
     }
     const newValues = isSelected
       ? values.filter(v => v !== optionValue)
@@ -185,6 +189,12 @@ export const MultiDropdownWithOther = ({ label, options, values = [], onChange, 
           onChange={(e) => onChange(otherFieldName, e.target.value)}
           style={{ marginTop: '8px' }}
         />
+      )}
+
+      {maxSelections !== Infinity && (
+        <div className="helper-text" style={{ marginTop: '6px', fontSize: '0.9rem', color: showLimitMessage ? '#d9534f' : '#6c757d' }}>
+          {showLimitMessage ? `You can select up to ${maxSelections} options.` : `Select up to ${maxSelections} options.`}
+        </div>
       )}
     </div>
   );
