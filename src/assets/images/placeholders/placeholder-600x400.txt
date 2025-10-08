@@ -1,0 +1,17 @@
+# Placeholder Image URLs
+
+## 600x400 Placeholder
+https://via.placeholder.com/600x400/28a745/ffffff?text=600x400
+
+## Usage Example
+```jsx
+<img src="https://via.placeholder.com/600x400/28a745/ffffff?text=600x400" alt="Placeholder" />
+```
+
+## Random Images from Lorem Picsum
+- URL: https://picsum.photos/
+- Format: https://picsum.photos/{width}/{height}
+- Example: https://picsum.photos/600/400
+- With specific image: https://picsum.photos/600/400?random=1
+
+

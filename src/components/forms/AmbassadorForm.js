@@ -1,0 +1,95 @@
+import React from 'react';
+import { DropdownWithOther, MultiDropdownWithOther } from '../FormComponents';
+
+const AmbassadorForm = ({ data, onChange, onSkip }) => {
+  const interestedInAmbassador = [
+    { value: 'yes', label: 'Yes' },
+    { value: 'no', label: 'No' }
+  ];
+
+  const ambassadorStrengths = [
+    { value: 'large-social-circle', label: 'Large social circle (friends, followers, active on campus)' },
+    { value: 'content-creation', label: 'Good at content creation (videos, photos, reviews)' },
+    { value: 'sharing-engaging', label: 'Enjoy sharing and engaging with others' },
+    { value: 'tech-interested', label: 'Interested in technology/mobile phones' },
+    { value: 'campus-events', label: 'Experienced in campus events (clubs, promotions)' },
+    { value: 'other', label: 'Other' }
+  ];
+
+  const ambassadorBenefits = [
+    { value: 'free-trial', label: 'Free trial of TECNO phones' },
+    { value: 'merchandise', label: 'Exclusive merchandise (T-shirts, bags, etc.)' },
+    { value: 'training', label: 'Training in content creation' },
+    { value: 'internship', label: 'Internship/Job opportunity' },
+    { value: 'certificates', label: 'Experience Certificates' },
+    { value: 'other', label: 'Other' }
+  ];
+
+
+  const handleAmbassadorInterestChange = (name, value) => {
+    onChange(name, value);
+    // Reset related fields if user selects "No"
+    if (value === 'no') {
+      onChange('ambassadorStrengths', []);
+      onChange('ambassadorBenefits', []);
+    }
+    // Clear any 'skipped' status when user makes a selection
+    if (value !== 'skipped') {
+      // The value is already being set by the onChange call above
+    }
+  };
+
+  return (
+    <div className="ambassador-form">
+      <div className="ambassador-question-container">
+        <div className="dropdown-wrapper">
+          <DropdownWithOther
+            label="Would you like to become a TECNO Campus Ambassador (helping with campus events & sharing product experiences)? (optional question)"
+            name="interestedInAmbassador"
+            options={interestedInAmbassador}
+            value={data.interestedInAmbassador === 'skipped' ? '' : data.interestedInAmbassador}
+            onChange={handleAmbassadorInterestChange}
+            placeholder="Select your interest"
+          />
+        </div>
+        {data.interestedInAmbassador !== 'yes' && (
+          <div className="skip-button-wrapper">
+            <button 
+              className="skip-button-inline"
+              onClick={onSkip}
+            >
+              Skip →
+            </button>
+          </div>
+        )}
+      </div>
+
+      {data.interestedInAmbassador === 'yes' && (
+        <>
+          <MultiDropdownWithOther
+            label="If yes, what are your strengths? (Select all that apply)"
+            name="ambassadorStrengths"
+            options={ambassadorStrengths}
+            values={data.ambassadorStrengths || []}
+            onChange={onChange}
+            otherFieldName="ambassadorStrengthsOther"
+            otherValue={data.ambassadorStrengthsOther}
+          />
+
+          <MultiDropdownWithOther
+            label="What benefits would you like as a Campus Ambassador? (Select all that apply)"
+            name="ambassadorBenefits"
+            options={ambassadorBenefits}
+            values={data.ambassadorBenefits || []}
+            onChange={onChange}
+            otherFieldName="ambassadorBenefitsOther"
+            otherValue={data.ambassadorBenefitsOther}
+          />
+
+        </>
+      )}
+    </div>
+  );
+};
+
+export default AmbassadorForm;

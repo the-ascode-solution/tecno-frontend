@@ -1,0 +1,7 @@
+# Fonts
+# This folder contains custom fonts and typefaces
+# Supported formats: WOFF, WOFF2, TTF, OTF
+# Prefer WOFF2 format for better compression
+# Include font-display: swap in CSS for better performance
+
+

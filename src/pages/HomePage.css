@@ -1,0 +1,166 @@
+.homepage {
+  min-height: 100vh;
+  /* Background image moved inline to avoid CSS loader resolving public paths */
+  --brand-blue: #1718A6;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-card {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(4px);
+  margin: 20px;
+  border-radius: 12px;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.main-title {
+  color: #1a1a1a;
+  font-size: 36px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  line-height: 1.3;
+}
+
+.intro-text {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.intro-text p {
+  color: #666;
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.logo-container {
+  margin: 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+}
+
+.logo-left {
+  display: flex;
+  justify-content: center;
+}
+
+.logo-right {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tagline {
+  color: var(--brand-blue);
+  font-size: 24px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.welcome-logo {
+  max-width: 240px;
+  max-height: 220px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+  border: none;
+  transition: transform 0.3s ease;
+  mix-blend-mode: normal;
+}
+
+.welcome-logo:hover {
+  transform: scale(1.05);
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.start-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  min-width: 200px;
+}
+
+.start-button:hover {
+  background-color: #0056b3;
+}
+
+.start-button:active {
+  transform: translateY(1px);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .main-card {
+    margin: 10px;
+    padding: 20px 15px;
+  }
+  
+  .main-title {
+    font-size: 28px;
+    margin-bottom: 25px;
+  }
+  
+  .intro-text p {
+    font-size: 17px;
+  }
+  
+  .logo-container {
+    margin: 25px 0;
+  }
+  
+  .logo-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .tagline {
+    font-size: 20px;
+  }
+  
+  .welcome-logo {
+    max-width: 220px;
+    max-height: 180px;
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+  }
+  
+  .start-button {
+    padding: 14px 28px;
+    font-size: 15px;
+    min-width: 180px;
+  }
+}
