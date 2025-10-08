@@ -2,13 +2,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import axios from 'axios';
 
-// API base URL: prefer environment variable (Netlify -> REACT_APP_API_BASE_URL),
-// fallback to the deployed Railway backend. If the env var already includes /api,
-// use it as-is; otherwise accept a full base path in the env var.
-const envApiBase = process.env.REACT_APP_API_BASE_URL;
-const API_BASE_URL = envApiBase && envApiBase.trim().length > 0
-  ? envApiBase
-  : 'https://tecno-backend-production.up.railway.app/api';
+// Direct submission to Netlify Function; no external backend URL
+const FUNCTION_SUBMIT_URL = '/.netlify/functions/submit-survey';
 
 const useSurveyStore = create(
   persist(
@@ -66,62 +61,15 @@ const useSurveyStore = create(
       
       // Actions
       // Create new session
-      createSession: async (userData = {}) => {
-        try {
-          const response = await axios.post(`${API_BASE_URL}/session/create`, {
-            userId: userData.userId || null,
-            deviceType: userData.deviceType || 'desktop',
-            browser: userData.browser || 'unknown'
-          });
-          
-          if (response.data.success) {
-            set({
-              sessionId: response.data.data.sessionId,
-              sessionStatus: 'active',
-              currentPage: response.data.data.currentPage
-            });
-            return { success: true, sessionId: response.data.data.sessionId };
-          }
-          
-          return { success: false, error: 'Failed to create session' };
-        } catch (error) {
-          console.error('Session creation error:', error);
-          return { success: false, error: error.message };
-        }
-      },
+      createSession: async () => ({ success: true }),
       
       // Save progress for current page
       saveProgress: async (pageData) => {
-        const { sessionId, currentPage } = get();
-        
-        if (!sessionId) {
-          return { success: false, error: 'No active session' };
+        // keep local only; no remote persistence needed without sessions
+        if (pageData) {
+          set((state) => ({ surveyData: { ...state.surveyData, ...pageData } }));
         }
-        
-        try {
-          const response = await axios.put(
-            `${API_BASE_URL}/session/${sessionId}/save-progress`,
-            {
-              page: currentPage,
-              data: pageData
-            }
-          );
-          
-          if (response.data.success) {
-            // Update local state
-            set((state) => ({
-              surveyData: { ...state.surveyData, ...pageData },
-              currentPage: Math.max(state.currentPage, response.data.data.currentPage)
-            }));
-            
-            return { success: true };
-          }
-          
-          return { success: false, error: 'Failed to save progress' };
-        } catch (error) {
-          console.error('Progress save error:', error);
-          return { success: false, error: error.message };
-        }
+        return { success: true };
       },
       
       // Update survey data locally
@@ -143,33 +91,7 @@ const useSurveyStore = create(
       setCurrentPage: (page) => set({ currentPage: page }),
       
       // Get session status
-      getSessionStatus: async () => {
-        const { sessionId } = get();
-        
-        if (!sessionId) {
-          return { success: false, error: 'No active session' };
-        }
-        
-        try {
-          const response = await axios.get(`${API_BASE_URL}/session/${sessionId}/status`);
-          
-          if (response.data.success) {
-            const sessionData = response.data.data;
-            set({
-              sessionStatus: sessionData.status,
-              currentPage: sessionData.currentPage,
-              surveyData: sessionData.surveyData
-            });
-            
-            return { success: true, data: sessionData };
-          }
-          
-          return { success: false, error: 'Failed to get session status' };
-        } catch (error) {
-          console.error('Session status error:', error);
-          return { success: false, error: error.message };
-        }
-      },
+      getSessionStatus: async () => ({ success: true, data: null }),
       
       // Submit completed survey
       submitSurvey: async () => {
@@ -177,8 +99,8 @@ const useSurveyStore = create(
         try {
           console.log('Submitting survey data:', surveyData);
           
-          // Submit survey data directly to the simple survey endpoint
-          const response = await axios.post(`${API_BASE_URL}/survey/submit`, surveyData);
+          // Submit survey data directly to Netlify Function which writes to Postgres
+          const response = await axios.post(FUNCTION_SUBMIT_URL, surveyData);
           
           if (response.data.success) {
             console.log('✅ Survey submitted successfully:', response.data);
@@ -203,7 +125,7 @@ const useSurveyStore = create(
         } catch (error) {
           console.error('❌ Survey submission error:', error);
           
-          // Check if it's a network error (backend not running)
+          // Check if it's a network error
           if (error.code === 'ECONNREFUSED' || error.code === 'ERR_NETWORK' || 
               error.response?.status === 404 || error.message.includes('Request failed with status code 404')) {
             
@@ -240,16 +162,7 @@ const useSurveyStore = create(
       },
       
       // Legacy submit method for backward compatibility
-      submitSurveyLegacy: async () => {
-        try {
-          const response = await axios.post(`${API_BASE_URL}/survey/submit`, get().surveyData);
-          console.log('Survey submitted successfully:', response.data);
-          return { success: true, data: response.data };
-        } catch (error) {
-          console.error('Error submitting survey:', error);
-          return { success: false, error: error.message };
-        }
-      },
+      submitSurveyLegacy: async () => ({ success: true }),
       
       // Reset survey data and clear all session information
       resetSurvey: () => {

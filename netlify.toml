@@ -1,6 +1,7 @@
 [build]
   command = "npm run build"
   publish = "build"
+  functions = "netlify/functions"
 
 # SPA fallback to index.html
 [[redirects]]
