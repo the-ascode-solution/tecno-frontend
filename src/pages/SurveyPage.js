@@ -136,7 +136,6 @@ const SurveyPage = () => {
   const isLastPage = currentPage === 7;
   // eslint-disable-next-line no-unused-vars
   const isFirstPage = currentPage === 0;
-  const isAmbassadorPage = currentPage === 5;
 
   return (
     <div
