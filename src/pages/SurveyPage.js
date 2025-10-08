@@ -35,8 +35,8 @@ const SurveyPage = () => {
 
   const handleNext = async () => {
     if (currentPage < 7) {
-      // Special logic for Ambassador page (page 5) - if user selected "No", skip to submit page
-      if (currentPage === 5 && surveyData.interestedInAmbassador === 'no') {
+      // Ambassador page (page 5): only 'yes' continues through contact/suggestions; else skip to submit
+      if (currentPage === 5 && surveyData.interestedInAmbassador !== 'yes') {
         try {
           await saveProgress();
         } catch (error) {
@@ -74,8 +74,8 @@ const SurveyPage = () => {
     if (currentPage > 0) {
       // Special logic for submit page (page 7) - if user came from Ambassador page skip, go back to Ambassador page
       if (currentPage === 7) {
-        // Check if user came from Ambassador page (either skipped or selected "No")
-        if (surveyData.interestedInAmbassador === 'no' || surveyData.interestedInAmbassador === 'skipped' || surveyData.interestedInAmbassador === '') {
+        // Check if user came from Ambassador page (skipped or empty)
+        if (surveyData.interestedInAmbassador !== 'yes') {
           navigate('/survey/6'); // Go back to Ambassador page
           return;
         }

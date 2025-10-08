@@ -4,7 +4,6 @@ import { DropdownWithOther, MultiDropdownWithOther } from '../FormComponents';
 const AmbassadorForm = ({ data, onChange, onSkip }) => {
   const interestedInAmbassador = [
     { value: 'yes', label: 'Yes' },
-    { value: 'no', label: 'No' }
   ];
 
   const ambassadorStrengths = [
@@ -28,11 +27,6 @@ const AmbassadorForm = ({ data, onChange, onSkip }) => {
 
   const handleAmbassadorInterestChange = (name, value) => {
     onChange(name, value);
-    // Reset related fields if user selects "No"
-    if (value === 'no') {
-      onChange('ambassadorStrengths', []);
-      onChange('ambassadorBenefits', []);
-    }
     // Clear any 'skipped' status when user makes a selection
     if (value !== 'skipped') {
       // The value is already being set by the onChange call above

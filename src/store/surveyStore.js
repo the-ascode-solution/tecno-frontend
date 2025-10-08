@@ -43,7 +43,7 @@ const useSurveyStore = create(
         preferredPhoneColors: [],
         
         // TECNO Campus Brand Ambassador Program
-        interestedInAmbassador: false,
+        interestedInAmbassador: '',
         ambassadorStrengths: [],
         ambassadorBenefits: [],
         name: '',
