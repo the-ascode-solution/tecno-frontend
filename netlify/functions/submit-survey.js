@@ -9,7 +9,15 @@ exports.handler = async function (event) {
   try {
     const payload = JSON.parse(event.body || '{}');
 
-    const client = new Client({ connectionString: process.env.DATABASE_URL });
+    const connectionString = process.env.DATABASE_URL || process.env.NETLIFY_DATABASE_URL || process.env.NETLIFY_DATABASE_URL_UNPOOLED;
+    if (!connectionString) {
+      return { statusCode: 500, body: JSON.stringify({ success: false, error: 'Missing database connection string' }) };
+    }
+
+    const client = new Client({
+      connectionString,
+      ssl: { rejectUnauthorized: false }
+    });
     await client.connect();
 
     // Ensure table exists (no extensions required)
