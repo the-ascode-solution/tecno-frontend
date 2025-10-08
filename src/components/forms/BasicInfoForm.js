@@ -21,6 +21,7 @@ const BasicInfoForm = ({ data, onChange }) => {
     { value: 'science', label: 'Science (e.g., Mathematics, Physics, Biology)' },
     { value: 'engineering', label: 'Engineering (e.g., Computer Science, Electronics)' },
     { value: 'arts', label: 'Arts (e.g., Design, Media, Fine Arts)' },
+    { value: 'business', label: 'Business (e.g., Management, Finance, Marketing)' },
     { value: 'other', label: 'Other' }
   ];
 
