@@ -36,26 +36,31 @@ const AmbassadorForm = ({ data, onChange, onSkip }) => {
   return (
     <div className="ambassador-form">
       <div className="ambassador-question-container">
-        <div className="dropdown-wrapper">
-          <DropdownWithOther
-            label="Would you like to become a TECNO Campus Ambassador (helping with campus events & sharing product experiences)?"
-            name="interestedInAmbassador"
-            options={interestedInAmbassador}
-            value={data.interestedInAmbassador === 'skipped' ? '' : data.interestedInAmbassador}
-            onChange={handleAmbassadorInterestChange}
-            placeholder="Select your interest"
-          />
+        <div className="ambassador-question">
+          <p className="question-text">
+            Would you like to become a TECNO Campus Ambassador (helping with campus events & sharing product experiences)?
+          </p>
         </div>
-        {data.interestedInAmbassador !== 'yes' && (
-          <div className="skip-button-wrapper">
+        
+        <div className="ambassador-buttons-container">
+          {data.interestedInAmbassador !== 'yes' && (
+            <button 
+              className="yes-button"
+              onClick={() => handleAmbassadorInterestChange('interestedInAmbassador', 'yes')}
+            >
+              Yes
+            </button>
+          )}
+          
+          {data.interestedInAmbassador !== 'yes' && (
             <button 
               className="skip-button-inline"
               onClick={onSkip}
             >
               Skip →
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       {data.interestedInAmbassador === 'yes' && (

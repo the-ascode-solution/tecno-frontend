@@ -71,6 +71,24 @@
   margin-bottom: 20px;
 }
 
+.ambassador-question {
+  margin-bottom: 20px;
+}
+
+.question-text {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.ambassador-buttons-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
 .dropdown-wrapper {
   width: 100%;
 }
@@ -81,11 +99,11 @@
   margin-top: 10px;
 }
 
-.skip-button-inline {
-  background-color: #6c757d;
+.yes-button {
+  background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 6px;
   font-size: 14px;
   font-weight: 500;
@@ -94,6 +112,32 @@
   white-space: nowrap;
   height: fit-content;
   min-height: 40px;
+  width: 100%;
+}
+
+.yes-button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.yes-button:active {
+  transform: translateY(0);
+}
+
+.skip-button-inline {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  height: fit-content;
+  min-height: 40px;
+  width: 100%;
 }
 
 .skip-button-inline:hover {
@@ -215,8 +259,20 @@
     justify-content: flex-end;
   }
   
+  .ambassador-buttons-container {
+    gap: 12px;
+    width: 100%;
+  }
+  
+  .yes-button {
+    padding: 12px 20px;
+    font-size: 15px;
+    width: 100%;
+  }
+  
   .skip-button-inline {
     padding: 12px 20px;
     font-size: 15px;
+    width: 100%;
   }
 }
